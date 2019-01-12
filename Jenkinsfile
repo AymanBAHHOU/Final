@@ -75,20 +75,10 @@ pipeline {
 	}
 
 	stage('Archivage Nexus'){
-			/*steps{
-				nexusPublisher nexusInstanceId: 'localNexus', 
-				nexusRepositoryId: 'releases', 
-				packages: 
-				[
-					[
-						$class: 'MavenPackage', mavenAssetList: 
-						[[classifier: '', extension: '', filePath: 'target/Proth_APP-0.0.3.war']], 
-						mavenCoordinate: [artifactId: 'Proth_APP', groupId: 'com', packaging: 'war', version: '0.0.3']
-					]
-				]
-			}*/
-			echo ''
-		}
+		 steps {
+        	echo 'Deploying ..'
+      	}
+	}
 
 
     
