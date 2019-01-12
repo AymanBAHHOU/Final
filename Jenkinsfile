@@ -40,14 +40,7 @@ pipeline {
 
     }
 
-    stage('JavaDoc Generation'){
-      steps {
-        bat "mvn javadoc:javadoc"
-        bat "mvn site"
-      }
-    }
-
-    stage("build & SonarQube analysis") {
+        stage("build & SonarQube analysis") {
             agent any
             steps {
               withSonarQubeEnv('SonarCube') {
@@ -57,7 +50,7 @@ pipeline {
           }
 
 
-    stage("Quality Gate") {
+    /*stage("Quality Gate") {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
                     // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
@@ -66,7 +59,38 @@ pipeline {
                     waitForQualityGate abortPipeline: true
                 }
             }
-        }
+        }*/
+
+    stage('JavaDoc Generation'){
+      steps {
+        bat "mvn javadoc:javadoc"
+        bat "mvn site"
+      }
+    }
+
+    stage('Packaging'){
+			steps{
+				bat 'mvn package'
+		}
+	}
+
+	stage('Archivage Nexus'){
+			/*steps{
+				nexusPublisher nexusInstanceId: 'localNexus', 
+				nexusRepositoryId: 'releases', 
+				packages: 
+				[
+					[
+						$class: 'MavenPackage', mavenAssetList: 
+						[[classifier: '', extension: '', filePath: 'target/Proth_APP-0.0.3.war']], 
+						mavenCoordinate: [artifactId: 'Proth_APP', groupId: 'com', packaging: 'war', version: '0.0.3']
+					]
+				]
+			}*/
+			echo ''
+		}
+
+
     
     stage('Deploy'){
       steps {
